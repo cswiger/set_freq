@@ -10,12 +10,10 @@ from gi.repository import Gtk as gtk
 
 class lmsgui:
   def on_window1_destroy(self, object, data=None):
-    print "quit with cancel"
     self.limeSDR.LMS7002_Reset()                             # reset the LMS7002M
     gtk.main_quit()
 
   def on_gtk_quit_activate(self, menuitem, data=None):
-    print "quit from menu"
     self.limeSDR.LMS7002_Reset()                             # reset the LMS7002M
     gtk.main_quit()
 
@@ -46,8 +44,8 @@ class lmsgui:
     self.builder = gtk.Builder() # create an instance of the gtk.Builder
     self.builder.add_from_file(self.gladefile) # add the xml file to the Builder
 
-    self.builder.connect_signals({"gtk_main_quit" : gtk.main_quit,
-                                "on_window1_destroy" : gtk.main_quit,
+    self.builder.connect_signals({"gtk_main_quit" :  self.on_gtk_quit_activate,
+                                "on_window1_destroy" : self.on_window1_destroy,
                                 "radio_control_f" : self.radio_control_f,
                                 "Frequency_val_value_changed_cb" : self.freq_change,
                                 "DCIQ_val_value_changed_cb" : self.DCIQ_change,
